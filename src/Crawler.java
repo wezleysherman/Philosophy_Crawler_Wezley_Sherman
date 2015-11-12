@@ -34,7 +34,8 @@ public class Crawler {
 				
 				//for(int i = 0; i < visitedPages.size(); i++)
 				//{
-					Element link = docment.select("a").get(index);
+					//System.out.println(docment.body());
+					Element link = docment.body().select("a").get(index);
 					String linkAttr = link.attr("href");
 					System.out.println(linkAttr);
 					if(!visitedPages.get(0).contains(linkAttr))
