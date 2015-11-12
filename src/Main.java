@@ -6,8 +6,9 @@ public class Main {
 	
 	public static void main(String[] args)
 	{
+		pageCrawler.visitedPages.add(pageUrl);
 		int currentStep = 0;
-		while(currentStep < 500)		
+		while(true)		
 		{
 			if(pageCrawler.crawlCurrentPage(pageUrl, pageTitle) == true)
 			{

@@ -12,6 +12,8 @@ public class Crawler {
 	private static String CRAWLER_AGENT = "Philosophy Crawler";
 	private Document doc;
 	public String nextUrl;
+	public List<String> visitedPages = new LinkedList();
+	
 	public boolean crawlCurrentPage(String url, String findName)
 	{
 		try
@@ -19,11 +21,37 @@ public class Crawler {
 			Connection con = Jsoup.connect(url).userAgent(CRAWLER_AGENT);
 			Document curDoc = con.get();
 			this.doc = curDoc;
-			Elements pageLinks = doc.select("a[href]");
-			nextUrl = pageLinks.get(0).absUrl("href");
-			System.out.println(nextUrl);
+			String html = doc.body().toString();
+			
+			Document docment = Jsoup.parse(html);
+			int index = 0;
+			while(true)
+			{
+				if(visitedPages.size() < 1)
+				{
+					visitedPages.add(url);
+				}
+				
+				//for(int i = 0; i < visitedPages.size(); i++)
+				//{
+					Element link = docment.select("a").get(index);
+					String linkAttr = link.attr("href");
+					System.out.println(linkAttr);
+					if(!visitedPages.get(0).contains(linkAttr))
+					{	
+						if(!linkAttr.toLowerCase().contains("//") && linkAttr.toLowerCase().contains("/wiki/") && !linkAttr.toLowerCase().contains("file"))
+						{
+							nextUrl = "https://en.wikipedia.org" + linkAttr;
+							System.out.println(nextUrl);
+							visitedPages.add(nextUrl);
+							break;
+						}
+					//}
+				}
+				index++;
+			}
+			
 			boolean containsName = getPageTitle() == findName.toLowerCase();
-			System.out.println(getPageTitle());
 			if(containsName)
 			{
 				return true;
