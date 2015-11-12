@@ -2,26 +2,28 @@
 public class Main {
 	static Crawler pageCrawler = new Crawler();
 	static String pageTitle = "Philosophy";
-	static String pageUrl = "https://en.wikipedia.org/wiki/CodeHS";
+	static String pageUrl = "https://en.wikipedia.org/wiki/Arizona_State_University";
 	
 	public static void main(String[] args)
 	{
-		pageCrawler.visitedPages.add(pageUrl);
 		int currentStep = 0;
-		while(true)		
-		{
+		boolean foundPage = false;
+		while(!foundPage)		
+		{	
 			if(pageCrawler.crawlCurrentPage(pageUrl, pageTitle) == true)
 			{
-				break;
+				foundPage = true;
 			}
 			
 			if(pageCrawler.nextUrl != pageUrl)
 			{
 				pageUrl = pageCrawler.nextUrl;
+				System.out.println("Current Step: " + currentStep + ". On Page: " + pageUrl);
 			}
-			System.out.println(pageCrawler.nextUrl);
-			System.out.println(currentStep);
+			
 			currentStep ++;
 		}
+		
+		System.out.println("It took " + currentStep + " steps to find: " + pageTitle);
 	}
 }
