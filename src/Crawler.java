@@ -58,9 +58,4 @@ public class Crawler {
 			return false;
 		}
 	}
-	
-	public String getPageTitle()
-	{
-		return this.doc.title().toLowerCase();
-	}
 }
